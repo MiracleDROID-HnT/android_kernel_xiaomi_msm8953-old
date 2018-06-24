@@ -1,6 +1,9 @@
 #!/bin/sh
 # Copyright (C) 2018 Adesh Ikhar (Adesh15)
 
+export TERM=xterm
+
+source ~/reactor/.creds
 source ~/scripts/common
 source ~/scripts/startupstuff.sh
 onLogin
@@ -12,18 +15,6 @@ export CHAT_ID="-318772221 $CHAT_ID"
 else
 export CHAT_ID="-1001163172007 $CHAT_ID"
 fi
-
-function sendTG()
-{
-for f in $CHAT_ID
-do
-bash ~/reactor/send_tg.sh $f $@
-done
-}
-
-NC='\033[0m'
-RED='\033[0;31m'
-LGR='\033[1;32m'
 
 ROOT_PATH=$PWD
 
@@ -108,7 +99,7 @@ cp -v "${IMAGE}" "${ZIPDIR}"
 cd "${ZIPDIR}"
 zip -r9 "${FINAL_ZIP}" *
 size=$(du -sh $FINAL_ZIP | awk '{print $1}')
-fileid=$(~/gdrive upload --parent 1WUgQdNirCz7u7FjXZNgstbCgDrjD4OUg ${FINAL_ZIP} | tail -1 | awk '{print $2}')
+fileid=$(~/gdrive upload --parent ${KERNEL_BUILDS} ${FINAL_ZIP} | tail -1 | awk '{print $2}')
 sendTG "[${FINAL_ZIP}](https://drive.google.com/uc?id=$fileid&export=download)"
 sendTG "FileSize - $size"
 sendTG "${POST_MESSAGE}"
